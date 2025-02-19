@@ -37,6 +37,14 @@ title: Welcome to Evidence
   order by sales_usd desc
 ```
 
+```sql pokedex
+select * from pokedex
+```
+
+```sql cpi
+select * from cpi
+```
+
 <BarChart
     data={orders_by_category}
     title="Sales by Month, {inputs.category.label}"
