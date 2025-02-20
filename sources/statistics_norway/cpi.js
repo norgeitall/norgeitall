@@ -50,5 +50,5 @@ for (const [index, value] of values.entries()) {
     twelve_month_change: value,
   })
 }
-console.debug(data);
+
 export { data };
