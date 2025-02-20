@@ -1,4 +1,6 @@
-let url = "https://data.ssb.no/api/v0/no/table/03013/";
+import dayjs from 'dayjs';
+
+const url = "https://data.ssb.no/api/v0/no/table/03013/";
 
 const query = {
   query: [
@@ -37,38 +39,16 @@ if (!response.ok) {
 const json = await response.json();
 const values = json.value;
 const labels = Object.values(json.dimension.Tid.category.label);
-
-let data = []
+const data = []
 
 for (const [index, value] of values.entries()) {
   const label = labels[index];
   const month = label.replace("M", "-")
+  const date = dayjs(month).endOf('month')
   data.push({
-    month: month,
+    date: date.format('YYYY-MM-DD'),
     twelve_month_change: value,
   })
 }
-// const labels = json.
-
-console.log(data);
-
-
-// const data = transformData(json);
-
-console.log("Hello")
-//
-// function transformData(jsonStatData) {
-//   if (!jsonStatData || !jsonStatData.value) return [];
-//
-//   const dimension = jsonStatData.dimension.Tid;
-//   const labels = dimension[Object.keys(dimension)[0]].category.index;
-//   const values = jsonStatData.value;
-//
-//   let data = Object.keys(labels).map((key, index) => ({
-//     category: labels[key],
-//     value: values[index]
-//   }));
-//
-//   return data;
-// }
+console.debug(data);
 export { data };
