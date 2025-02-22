@@ -15,5 +15,6 @@ jobs:
           node-version: 22
           cache: "npm"
       - run: npm install
+      - run: npx prettier . --check
       - run: npm run sources
       - run: npm run build:strict
