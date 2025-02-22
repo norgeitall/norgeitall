@@ -1,5 +1,3 @@
 {
-	"recommendations": [
-		"evidence.evidence-vscode"
-	]
+  "recommendations": ["evidence.evidence-vscode"]
 }
