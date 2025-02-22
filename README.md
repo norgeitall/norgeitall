@@ -1,3 +1,5 @@
+[![CI](https://github.com/dag1-no/dag1/actions/workflows/ci.yml/badge.svg)](https://github.com/dag1-no/dag1/actions)
+
 # Evidence Template Project
 
 ## Using Codespaces
