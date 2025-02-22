@@ -61,7 +61,7 @@ FROM current c
 JOIN historical h ON 1=1;
 ```
 
-Prisen vi må betale for utenlandsk valuta er en annen indikator på hvor bra det går med økonomien vår. Ved utgangen av 2024 betalte vi <Value data={eur_ten_years} column=prosent_endring />prosent mer for én Euro enn vi gjorde for ti år siden:
+Prisen vi må betale for utenlandsk valuta er en annen indikator på hvor bra det går med økonomien vår. Ved utgangen av fjoråret betalte vi <Value data={eur_ten_years} column=prosent_endring />prosent mer for én Euro enn vi gjorde for ti år siden:
 
 ```sql nok_eur
 select
