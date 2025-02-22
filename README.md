@@ -1,6 +1,4 @@
-[![CI](https://github.com/dag1-no/dag1/actions/workflows/ci.yml/badge.svg)](https://github.com/dag1-no/dag1/actions)
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/de5a3ecd-f354-43e0-82bd-53f9555a0f16/deploy-status)](https://app.netlify.com/sites/dag1/deploys)
+[![CI](https://github.com/dag1-no/dag1/actions/workflows/ci.yml/badge.svg)](https://github.com/dag1-no/dag1/actions) [![Netlify Status](https://api.netlify.com/api/v1/badges/de5a3ecd-f354-43e0-82bd-53f9555a0f16/deploy-status)](https://app.netlify.com/sites/dag1/deploys)
 
 # Dag 1
 
