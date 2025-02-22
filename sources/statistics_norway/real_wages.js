@@ -37,9 +37,20 @@ const data = [];
 for (const [index, value] of values.entries()) {
   const label = labels[index];
   const date = dayjs(label).endOf("year");
+  const absolute_value = value * 1000;
+  let change = null;
+  if (index > 0) {
+    const previous_value = values[index - 1] * 1000;
+    change =
+      previous_value !== 0
+        ? ((absolute_value - previous_value) / previous_value) * 100
+        : null;
+  }
+
   data.push({
     date: date.format("YYYY-MM-DD"),
-    value: value * 1000,
+    absolute_value: absolute_value,
+    change: change, // Relative change as a decimal (e.g., 0.05 for 5%)
   });
 }
 

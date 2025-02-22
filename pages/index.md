@@ -13,7 +13,8 @@ title: Dag 1
 ```sql real_wages
 select
     cast(date as date) as date,
-    value
+    absolute_value,
+    change
 from real_wages
 ```
 
@@ -22,6 +23,7 @@ from real_wages
     subtitle="Kilde: SSB tabell 09786"
     title="Reallønn i 2010-kroner"
     x=date
-    y=value
+    y=absolute_value
+    y2=change
     chartAreaHeight={500}
 />
