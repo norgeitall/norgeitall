@@ -1,8 +1,6 @@
-[![CI](https://github.com/dag1-no/dag1/actions/workflows/ci.yml/badge.svg)](https://github.com/dag1-no/dag1/actions) [![Netlify Status](https://api.netlify.com/api/v1/badges/de5a3ecd-f354-43e0-82bd-53f9555a0f16/deploy-status)](https://app.netlify.com/sites/dag1/deploys)
+[![CI](https://github.com/norgeitall/norgeitall/actions/workflows/ci.yml/badge.svg)](https://github.com/norgeitall/norgeitall/actions) [![Netlify Status](https://api.netlify.com/api/v1/badges/de5a3ecd-f354-43e0-82bd-53f9555a0f16/deploy-status)](https://app.netlify.com/sites/norgeitall/deploys)
 
-# Dag 1
-
-This website is publicly available on [dag1.no](https://www.dag1.no/).
+# Norge i tall
 
 ## Using Codespaces
 
