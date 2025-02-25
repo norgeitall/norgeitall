@@ -13,7 +13,7 @@ from real_wages
 
 <LineChart
     data={real_wages}
-    subtitle="Kilde: SSB-tabell 09786"
+    subtitle="Kilde: SSBs tabell 09786"
     title="Reallønn i 2010-kroner"
     x=dato
     y=lønn
