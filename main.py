@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 def main():
-    print("Hello from norgeitall!")
+    response = get("")
 
 
 if __name__ == "__main__":
