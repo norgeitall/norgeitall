@@ -5,13 +5,13 @@ repos:
         name: ruff
         entry: ruff check
         language: system
-        types: [ python ]
-        args: [ --fix ]
+        types: [python]
+        args: [--fix]
       - id: ruff-format
         name: ruff-format
         entry: ruff format
         language: system
-        types: [ python ]
+        types: [python]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
