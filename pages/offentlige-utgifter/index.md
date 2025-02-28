@@ -6,7 +6,7 @@ title: Offentlige utgifter
 select year as 'år', value as 'offentlige utgifter' from government_expenses
 ```
 
-<LineChart 
+<LineChart
     data={government_expenses}
     x=år
     y='offentlige utgifter'
