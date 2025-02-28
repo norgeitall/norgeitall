@@ -1,5 +1,5 @@
 ---
-title: Om
+title: Om Norge i tall
 hide_title: true
 ---
 
@@ -7,7 +7,7 @@ hide_title: true
 
 _Norge i tall_ begynte med et enkelt spørsmål: Hvis landet skulle bli drevet som en organisasjon i verdensklasse, hvordan hadde det sett ut?
 
-Er det én ting de beste organisasjonene gjør, enten de søker å tjene penger eller ikke, så er det å følge med på og prøve å forstå tall. Det finnes mange tall tilgjengelig — se [data.norge.no](https://data.norge.no/nb). Men å finne gode og kontinuerlige oppdaterte visualiseringer av viktige tall for Norge er ikke så lett. Det er her denne nettsiden kommer inn.
+Er det én ting de beste organisasjonene gjør, enten de søker å tjene penger eller ikke, så er det å følge med på og prøve å forstå tall. Det finnes mange tall tilgjengelig — se for eksempel [data.norge.no](https://data.norge.no). Men å finne gode og kontinuerlige oppdaterte visualiseringer av viktige tall for Norge er ikke så lett. Det er her denne nettsiden kommer inn.
 
 ## Kildekode
 
