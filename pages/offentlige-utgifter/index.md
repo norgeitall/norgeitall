@@ -3,12 +3,12 @@ title: Offentlige utgifter
 ---
 
 ```sql government_expenses
-select year as 'år', value as 'offentlige utgifter' from government_expenses
+select date as dato, value as offentlige_utgifter from government_expenses
 ```
 
 <LineChart
     data={government_expenses}
-    x=år
-    y='offentlige utgifter'
+    x=dato
+    y=offentlige_utgifter
     chartAreaHeight={500}
 />
