@@ -9,6 +9,7 @@ To get started:
 ```bash
 uv sync
 source .venv/bin/activate
+pre-commit run --all-files
 ./main.py
 npm install
 npm run sources
