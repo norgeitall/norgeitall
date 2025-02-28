@@ -17,6 +17,5 @@ jobs:
           cache: "npm"
       - run: uv run pre-commit run --all-files
       - run: npm install
-      - run: npx prettier . --check
       - run: npm run sources
       - run: npm run build:strict
