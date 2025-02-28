@@ -1,5 +1,5 @@
 [build]
   publish = "build"
-  command = "npm run sources && npm run build"
+  command = "./build.sh"
 [functions]
   node_bundler = "esbuild"

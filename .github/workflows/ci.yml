@@ -9,11 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
       - name: Test
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
+      - run: uv run pre-commit run --all-files
       - run: npm install
       - run: npx prettier . --check
       - run: npm run sources

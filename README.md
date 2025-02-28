@@ -2,28 +2,21 @@
 
 # Norge i tall
 
-## Using Codespaces
+_Norge i tall_ is built on [Evidence - Business Intelligence as Code](https://evidence.dev/). In addition, we use Python to build data sources.
 
-If you are using Codespaces, click the `Start Evidence` button in the bottom status bar. This will install dependencies and open a preview of your project in your browser - you should get a popup prompting you to open in browser.
-
-Or you can use the following commands to get started:
+To get started:
 
 ```bash
+uv sync
+source .venv/bin/activate
+pre-commit run --all-files
+./main.py
 npm install
 npm run sources
 npm run dev -- --host 0.0.0.0
 ```
 
 See [the CLI docs](https://docs.evidence.dev/cli/) for more command information.
-
-**Note:** Codespaces is much faster on the Desktop app. After the Codespace has booted, select the hamburger menu → Open in VS Code Desktop.
-
-## VS Code
-
-The easiest way to get started is using the [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=Evidence.evidence-vscode):
-
-1. Install the extension from the VS Code Marketplace
-2. Click `Start Evidence` in the bottom status bar
 
 ## Learning More
 
