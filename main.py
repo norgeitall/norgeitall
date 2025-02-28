@@ -11,18 +11,23 @@ def main() -> None:
 
 
 def get_government_expenses_from_ssb() -> None:
+    response = _post("https://data.ssb.no/api/v0/no/table/10725/",{"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}})
+    observations = simplify_jsonstat2(response)
+    write_csv(observations, Path("sources/ssb/government_expenses.csv"))
+
+
+def _post(url: str, query: dict) -> Response:
     response = post(
-        "https://data.ssb.no/api/v0/no/table/10725/",
+        url,
         json={
             "query": [
-                {"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}}
+                query,
             ],
             "response": {"format": "json-stat2"},
         },
     )
     response.raise_for_status()
-    observations = simplify_jsonstat2(response)
-    write_csv(observations, Path("sources/ssb/government_expenses.csv"))
+    return response
 
 
 def simplify_jsonstat2(response: Response) -> list[dict]:
