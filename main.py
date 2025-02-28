@@ -11,7 +11,10 @@ def main() -> None:
 
 
 def get_government_expenses_from_ssb() -> None:
-    response = _post("https://data.ssb.no/api/v0/no/table/10725/",{"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}})
+    response = _post(
+        "https://data.ssb.no/api/v0/no/table/10725/",
+        {"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}},
+    )
     observations = simplify_jsonstat2(response)
     write_csv(observations, Path("sources/ssb/government_expenses.csv"))
 
@@ -46,7 +49,7 @@ def write_csv(observations: list[dict], path: Path) -> None:
         writer = DictWriter(
             file,  # type: ignore
             fieldnames=observations[0].keys(),
-            delimiter=";"
+            delimiter=";",
         )
         writer.writeheader()
         writer.writerows(observations)
