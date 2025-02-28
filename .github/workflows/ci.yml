@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 22
           cache: "npm"
-      - run: uv python install
+      - run: uv sync
       - run: pre-commit run --all-files
       - run: npm install
       - run: npx prettier . --check
