@@ -43,7 +43,11 @@ def simplify_jsonstat2(response: Response) -> list[dict]:
 def write_csv(observations: list[dict], path: Path) -> None:
     delete_file_if_exists(path)
     with path.open(mode="w", newline="", encoding="utf-8") as file:
-        writer = DictWriter(file, fieldnames=observations[0].keys(), delimiter=";")
+        writer = DictWriter(
+            file,  # type: ignore
+            fieldnames=observations[0].keys(),
+            delimiter=";"
+        )
         writer.writeheader()
         writer.writerows(observations)
 
