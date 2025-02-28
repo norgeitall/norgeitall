@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from csv import DictWriter
 from datetime import date
+from pathlib import Path
 
 from httpx import post
 
@@ -22,14 +23,13 @@ def main():
     observations = []
     for year, index in years.items():
         observations.append({"year": date(int(year), 12, 31), "value": values[index]})
-    csv_file = "sources/ssb/government_expenses.csv"
-    with open(csv_file, mode="w", newline="", encoding="utf-8") as file:
+    csv_file = Path("sources/ssb/government_expenses.csv")
+    csv_file.unlink(missing_ok=True)
+    with csv_file.open(mode="w", newline="", encoding="utf-8") as file:
         writer = DictWriter(file, fieldnames=observations[0].keys(), delimiter=";")
         writer.writeheader()
         writer.writerows(observations)
-
     print(f"CSV file '{csv_file}' created successfully!")
-    pass
 
 
 if __name__ == "__main__":
