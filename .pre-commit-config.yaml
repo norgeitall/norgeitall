@@ -17,4 +17,5 @@ repos:
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: "^runtime\\.txt$"
       - id: trailing-whitespace
