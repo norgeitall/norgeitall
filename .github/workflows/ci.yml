@@ -16,6 +16,7 @@ jobs:
           node-version: 22
           cache: "npm"
       - run: uv run pre-commit run --all-files
+      - run: uv run main.py
       - run: npm install
       - run: npm run sources
       - run: npm run build:strict
