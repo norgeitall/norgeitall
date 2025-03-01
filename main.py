@@ -3,11 +3,20 @@ from csv import DictWriter
 from datetime import date
 from pathlib import Path
 
-from httpx import post, Response
+from httpx import get, post, Response
 
 
 def main() -> None:
     get_government_expenses_from_ssb()
+    get_petroleum_fund_data()
+
+
+def get_petroleum_fund_data() -> None:
+    url = "https://www.nbim.no/en/investments/the-funds-value/"
+    response = get(url)
+    text = response.text
+    observations = parse_petroleum_fund_data(text)
+    delete_and_write_csv(observations, Path("sources/nbim/fund_value.csv"))
 
 
 def get_government_expenses_from_ssb() -> None:
@@ -16,7 +25,36 @@ def get_government_expenses_from_ssb() -> None:
         {"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}},
     )
     observations = simplify_jsonstat2(response)
-    write_csv(observations, Path("sources/ssb/government_expenses.csv"))
+    delete_and_write_csv(observations, Path("sources/ssb/government_expenses.csv"))
+
+
+def parse_petroleum_fund_data(text: str) -> list[dict]:
+    line: str | None = None
+    for _line in text.splitlines():
+        if _line.startswith("data: [[Date.UTC(1998,11, 31),172]"):
+            line = _line
+            break
+    assert isinstance(line, str)
+    line = line[8:]
+    line = line[:-2]
+    rows = line.split("],[")
+    observations: list[dict] = []
+    for row in rows:
+        cells = row.split("),")
+        year = cells[0][9:13]
+        year = int(year)
+        value = int(cells[1])
+        observations.append({"date": date(year, 12, 31), "value": value})
+    return observations
+
+
+def _get(url: str) -> Response:
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+    }
+    response = get(url, headers=headers)
+    response.raise_for_status()
+    return response
 
 
 def _post(url: str, query: dict) -> Response:
@@ -43,7 +81,7 @@ def simplify_jsonstat2(response: Response) -> list[dict]:
     return observations
 
 
-def write_csv(observations: list[dict], path: Path) -> None:
+def delete_and_write_csv(observations: list[dict], path: Path) -> None:
     delete_file_if_exists(path)
     with path.open(mode="w", newline="", encoding="utf-8") as file:
         writer = DictWriter(
