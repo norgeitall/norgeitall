@@ -8,10 +8,31 @@ from httpx import get, post, Response
 
 
 def main() -> None:
+    get_nok_eur()
     get_cpi()
     get_real_wages()
     get_government_expenses_from_ssb()
     get_petroleum_fund_data()
+
+
+def get_nok_eur() -> None:
+    response = get(
+        "https://data.norges-bank.no/api/data/EXR/A.EUR.NOK.SP?format=sdmx-json&lastNObservations=30&locale=en"
+    )
+    json = response.json()
+    labels = json["data"]["structure"]["dimensions"]["observation"][0]["values"]
+    values = json["data"]["dataSets"][0]["series"]["0:0:0:0"]["observations"]
+    observations = []
+    for index, label in enumerate(labels):
+        value = values[str(index)][0]  # Get value or None if missing
+        _date = label["end"].split("T")[0]
+        observations.append(
+            {
+                "date": _date,
+                "value": float(value),
+            }
+        )
+    delete_and_write_csv(observations, Path("sources/norges_bank/nok_eur.csv"))
 
 
 def get_cpi() -> None:
