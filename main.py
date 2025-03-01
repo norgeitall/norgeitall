@@ -9,6 +9,7 @@ from httpx import get, post, Response
 
 def main() -> None:
     get_cpi()
+    get_real_wages()
     get_government_expenses_from_ssb()
     get_petroleum_fund_data()
 
@@ -35,7 +36,23 @@ def get_cpi() -> None:
     )
     observations = simplify_jsonstat2(response)
     delete_and_write_csv(observations, Path("sources/ssb/cpi.csv"))
-    pass
+
+
+def get_real_wages() -> None:
+    response = _post(
+        "https://data.ssb.no/api/v0/no/table/09786/",
+        [
+            {
+                "code": "ContentsCode",
+                "selection": {
+                    "filter": "item",
+                    "values": ["RealArslonn"],
+                },
+            }
+        ],
+    )
+    observations = simplify_jsonstat2(response)
+    delete_and_write_csv(observations, Path("sources/ssb/real_wages.csv"))
 
 
 def get_petroleum_fund_data() -> None:
