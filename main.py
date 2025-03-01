@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from calendar import monthrange
 from csv import DictWriter
 from datetime import date
 from pathlib import Path
@@ -7,8 +8,34 @@ from httpx import get, post, Response
 
 
 def main() -> None:
+    get_cpi()
     get_government_expenses_from_ssb()
     get_petroleum_fund_data()
+
+
+def get_cpi() -> None:
+    response = _post(
+        "https://data.ssb.no/api/v0/no/table/03013/",
+        [
+            {
+                "code": "Konsumgrp",
+                "selection": {
+                    "filter": "vs:CoiCop2016niva1",
+                    "values": ["TOTAL"],
+                },
+            },
+            {
+                "code": "ContentsCode",
+                "selection": {
+                    "filter": "item",
+                    "values": ["Tolvmanedersendring"],
+                },
+            },
+        ],
+    )
+    observations = simplify_jsonstat2(response)
+    delete_and_write_csv(observations, Path("sources/ssb/cpi.csv"))
+    pass
 
 
 def get_petroleum_fund_data() -> None:
@@ -22,7 +49,7 @@ def get_petroleum_fund_data() -> None:
 def get_government_expenses_from_ssb() -> None:
     response = _post(
         "https://data.ssb.no/api/v0/no/table/10725/",
-        {"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}},
+        [{"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}}],
     )
     observations = simplify_jsonstat2(response)
     delete_and_write_csv(observations, Path("sources/ssb/government_expenses.csv"))
@@ -57,13 +84,11 @@ def _get(url: str) -> Response:
     return response
 
 
-def _post(url: str, query: dict) -> Response:
+def _post(url: str, query: list[dict]) -> Response:
     response = post(
         url,
         json={
-            "query": [
-                query,
-            ],
+            "query": query,
             "response": {"format": "json-stat2"},
         },
     )
@@ -73,11 +98,21 @@ def _post(url: str, query: dict) -> Response:
 
 def simplify_jsonstat2(response: Response) -> list[dict]:
     json = response.json()
-    years = json["dimension"]["Tid"]["category"]["index"]
+    time_periods = json["dimension"]["Tid"]["category"]["index"]
     values = json["value"]
     observations: list[dict] = []
-    for year, index in years.items():
-        observations.append({"date": date(int(year), 12, 31), "value": values[index]})
+    for time_period, index in time_periods.items():
+        observation = {}
+        try:
+            observation["date"] = date(int(time_period), 12, 31)
+        except ValueError:
+            year, month = time_period.split("M")
+            year = int(year)
+            month = int(month)
+            last_day = monthrange(year, month)[1]
+            observation["date"] = date(year, month, last_day)
+        observation["value"] = values[index]
+        observations.append(observation)
     return observations
 
 

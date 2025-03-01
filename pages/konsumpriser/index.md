@@ -7,7 +7,7 @@ Statistisk sentralbyrå beregner endringen i prisene for forbruksgoder:
 ```sql cpi
 select
     cast(date as date) as date,
-    twelve_month_change
+    value as 'tolvmånedersendring'
 from cpi
 ```
 
@@ -16,6 +16,6 @@ from cpi
     title="Konsumprisindeksen, 12-månedersendring"
     subtitle="Kilde: SSBs tabell 03013"
     x=date
-    y=twelve_month_change
+    y=tolvmånedersendring
     chartAreaHeight={500}
 />
