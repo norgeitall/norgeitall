@@ -12,4 +12,4 @@ Kildekoden er åpent tilgjengelig på [github.com/norgeitall/norgeitall](https:/
 
 ## _Norge i tall_ i tall
 
-Hva er vel bedre enn statistikk om en nettside om statistikk? På [norgeitall.goatcounter.com](https://norgeitall.goatcounter.com/) finner du besøkstall for _Norge i tall_.
+Hva kan være bedre enn en nettside med statistikk? En nettside med statistikk om en nettside med statistikk! På [norgeitall.goatcounter.com](https://norgeitall.goatcounter.com/) finner du besøkstall for _Norge i tall_.
