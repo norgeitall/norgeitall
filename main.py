@@ -73,6 +73,8 @@ def get_real_wages() -> None:
         ],
     )
     observations = simplify_jsonstat2(response)
+    for observation in observations:
+        observation["value"] *= 1_000
     delete_and_write_csv(observations, Path("sources/ssb/real_wages.csv"))
 
 
