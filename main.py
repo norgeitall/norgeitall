@@ -20,7 +20,27 @@ def main() -> None:
 def get_absence_from_work_due_to_illness() -> None:
     csv_url = "https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_AWDI,1.0/DNK+SWE+NOR.A.CAWI..........?startPeriod=2007&format=csvfile"
     response = get(csv_url)
-    read_csv(response.content)
+    dataframe = read_csv(response.content)
+    observations = []
+    for row in dataframe.to_dicts():
+        year = row["TIME_PERIOD"]
+        _date = date(year, 12, 31)
+        value = row["OBS_VALUE"]
+        country = row["REF_AREA"]
+        if country == "NOR":
+            country = "Norge"
+        elif country == "SWE":
+            country = "Sverige"
+        elif country == "DNK":
+            country = "Danmark"
+        observations.append(
+            {
+                "date": _date,
+                "value": value,
+                "country": country,
+            }
+        )
+    delete_and_write_csv(observations, Path("sources/oecd/absence_illness.csv"))
 
 
 def get_nok_eur() -> None:
