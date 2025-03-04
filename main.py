@@ -5,14 +5,22 @@ from datetime import date
 from pathlib import Path
 
 from httpx import get, post, Response
+from polars import read_csv
 
 
 def main() -> None:
+    get_absence_from_work_due_to_illness()
     get_nok_eur()
     get_cpi()
     get_real_wages()
     get_government_expenses_from_ssb()
     get_petroleum_fund_data()
+
+
+def get_absence_from_work_due_to_illness() -> None:
+    csv_url = "https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_AWDI,1.0/DNK+SWE+NOR.A.CAWI..........?startPeriod=2007&format=csvfile"
+    response = get(csv_url)
+    read_csv(response.content)
 
 
 def get_nok_eur() -> None:
