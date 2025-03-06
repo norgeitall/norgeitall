@@ -20,7 +20,9 @@ def main() -> None:
 def get_absence_from_work_due_to_illness() -> None:
     csv_url = "https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_AWDI,1.0/DNK+SWE+NOR.A.CAWI..........?startPeriod=2007&format=csvfile"
     response = get(csv_url)
-    dataframe = read_csv(response.content)
+    dataframe = read_csv(response.content).sort(
+        ["TIME_PERIOD", "REF_AREA"], descending=[True, False]
+    )
     observations = []
     for row in dataframe.to_dicts():
         year = row["TIME_PERIOD"]
