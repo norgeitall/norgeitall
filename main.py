@@ -5,14 +5,44 @@ from datetime import date
 from pathlib import Path
 
 from httpx import get, post, Response
+from polars import read_csv
 
 
 def main() -> None:
+    get_absence_from_work_due_to_illness()
     get_nok_eur()
     get_cpi()
     get_real_wages()
     get_government_expenses_from_ssb()
     get_petroleum_fund_data()
+
+
+def get_absence_from_work_due_to_illness() -> None:
+    csv_url = "https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_AWDI,1.0/DNK+SWE+NOR.A.CAWI..........?startPeriod=2007&format=csvfile"
+    response = get(csv_url)
+    dataframe = read_csv(response.content).sort(
+        ["TIME_PERIOD", "REF_AREA"], descending=[True, False]
+    )
+    observations = []
+    for row in dataframe.to_dicts():
+        year = row["TIME_PERIOD"]
+        _date = date(year, 12, 31)
+        value = row["OBS_VALUE"]
+        country = row["REF_AREA"]
+        if country == "NOR":
+            country = "Norge"
+        elif country == "SWE":
+            country = "Sverige"
+        elif country == "DNK":
+            country = "Danmark"
+        observations.append(
+            {
+                "date": _date,
+                "value": value,
+                "country": country,
+            }
+        )
+    delete_and_write_csv(observations, Path("sources/oecd/absence_illness.csv"))
 
 
 def get_nok_eur() -> None:
