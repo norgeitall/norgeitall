@@ -122,6 +122,8 @@ def get_government_expenses_from_ssb() -> None:
         [{"code": "Formaal", "selection": {"filter": "item", "values": ["COF0"]}}],
     )
     observations = simplify_jsonstat2(response)
+    for observation in observations:
+        observation["value"] = observation["value"] / 1000
     delete_and_write_csv(observations, Path("sources/ssb/government_expenses.csv"))
 
 
