@@ -17,6 +17,11 @@ def main() -> None:
     get_petroleum_fund_data()
 
 
+def get_labor_force_participation_rate():
+    csv_url = "https://sdmx.oecd.org/public/rest/data/OECD.ELS.SAE,DSD_LFS@DF_LFS_INDIC,/SWE+NOR+DNK.LF_RATE.._T.Y25T64.?startPeriod=2010&dimensionAtObservation=AllDimensions&format=csvfile"
+    get(csv_url)
+
+
 def get_absence_from_work_due_to_illness() -> None:
     csv_url = "https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_AWDI,1.0/DNK+SWE+NOR.A.CAWI..........?startPeriod=2007&format=csvfile"
     response = get(csv_url)
