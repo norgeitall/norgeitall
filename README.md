@@ -14,7 +14,7 @@ Then, Evidence makes these CSV files available to query with SQL, and builds the
 
 ### Prerequisites
 
-1. Python package and project manager [`uv`](https://docs.astral.sh/uv/)
+1. Python package and project manager [uv](https://docs.astral.sh/uv/)
 2. JavaScript runtime environment [Node.js](https://nodejs.org/en)
 
 If you use [Homebrew](https://brew.sh/), simply run `brew install uv node`.
