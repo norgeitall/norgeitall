@@ -8,6 +8,7 @@ from httpx import get, post, Response
 from polars import read_csv
 import polars as pl
 
+
 def main() -> None:
     get_absence_from_work_due_to_illness()
     get_nok_eur()
@@ -66,6 +67,7 @@ def get_nok_eur() -> None:
             }
         )
     delete_and_write_csv(observations, Path("sources/norges_bank/nok_eur.csv"))
+
 
 def get_nok_usd() -> None:
     response = get(
@@ -131,8 +133,6 @@ def get_nominal_wages() -> None:
     delete_and_write_csv(observations, Path("sources/ssb/nominal_wages.csv"))
 
 
-
-
 def get_real_wages() -> None:
     response = _post(
         "https://data.ssb.no/api/v0/no/table/09786/",
@@ -171,10 +171,9 @@ def get_government_expenses_from_ssb() -> None:
     delete_and_write_csv(observations, Path("sources/ssb/government_expenses.csv"))
 
 
-
-
 # Get US CPI data from the Federal Reserve Bank of St. Louis from 1970 to today.
 # only use the modules we have already imported
+
 
 def get_us_cpi() -> None:
     """
@@ -183,39 +182,39 @@ def get_us_cpi() -> None:
     """
     url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=1970-01-01&coed=2024-12-31"
     response = _get(url)
-    
+
     # Parse CSV with Polars
     df = read_csv(response.content)
-    
+
     # Ensure expected columns are present
     if "observation_date" not in df.columns or "CPIAUCSL" not in df.columns:
         print("Column names in CSV:", df.columns)
-        raise KeyError("Expected columns 'observation_date' and 'CPIAUCSL' not found in FRED CSV data.")
-    
+        raise KeyError(
+            "Expected columns 'observation_date' and 'CPIAUCSL' not found in FRED CSV data."
+        )
+
     # Convert observation_date to datetime and extract year
-    df = df.with_columns([
-        pl.col("observation_date").str.strptime(pl.Date, "%Y-%m-%d").alias("date_obj"),
-        pl.col("CPIAUCSL").cast(pl.Float64).alias("value")
-    ]).with_columns([
-        pl.col("date_obj").dt.year().alias("year")
-    ])
-    
+    df = df.with_columns(
+        [
+            pl.col("observation_date")
+            .str.strptime(pl.Date, "%Y-%m-%d")
+            .alias("date_obj"),
+            pl.col("CPIAUCSL").cast(pl.Float64).alias("value"),
+        ]
+    ).with_columns([pl.col("date_obj").dt.year().alias("year")])
+
     # Group by year and calculate mean CPI
-    yearly_df = df.group_by("year").agg([
-        pl.col("value").mean().alias("value")
-    ])
-    
+    yearly_df = df.group_by("year").agg([pl.col("value").mean().alias("value")])
+
     # Create year-end date strings (e.g., "1970-12-31")
     observations = [
-        {
-            "date": f"{row['year']}-12-31",
-            "value": row["value"]
-        }
+        {"date": f"{row['year']}-12-31", "value": row["value"]}
         for row in yearly_df.sort("year").to_dicts()
     ]
-    
+
     # Save to CSV
     delete_and_write_csv(observations, Path("sources/us_fred/us_cpi.csv"))
+
 
 def parse_petroleum_fund_data(text: str) -> list[dict]:
     line: str | None = None

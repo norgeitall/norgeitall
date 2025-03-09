@@ -67,5 +67,3 @@ on cast(nominal_wages.date as date) = cast(nok_usd.date as date)
     y=lønn_usd
     chartAreaHeight={500}
 />
-
-
