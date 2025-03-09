@@ -127,9 +127,7 @@ def get_nominal_wages() -> None:
         ],
     )
     observations = simplify_jsonstat2(response)
-    for observation in observations:
-        if observation is int:
-            observation["value"] *= 1_000
+
     delete_and_write_csv(observations, Path("sources/ssb/nominal_wages.csv"))
 
 
