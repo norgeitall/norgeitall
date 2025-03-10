@@ -15,10 +15,12 @@ def main() -> None:
     get_nok_usd()
     get_cpi()
     get_us_cpi()
-    get_nominal_wages()
+    get_mean_wages_no_yearly()
+    get_mean_wages_no_monthly_annualized()
     get_real_wages()
     get_government_expenses_from_ssb()
     get_petroleum_fund_data()
+    get_us_mean_wages()
 
 
 def get_absence_from_work_due_to_illness() -> None:
@@ -113,7 +115,8 @@ def get_cpi() -> None:
     delete_and_write_csv(observations, Path("sources/ssb/cpi.csv"))
 
 
-def get_nominal_wages() -> None:
+def get_mean_wages_no_yearly() -> None:
+    # nominal mean yearly wages in Norway from SSB yearly time series from 1970 to 2021
     response = _post(
         "https://data.ssb.no/api/v0/no/table/09786/",
         [
@@ -127,8 +130,40 @@ def get_nominal_wages() -> None:
         ],
     )
     observations = simplify_jsonstat2(response)
+    for observation in observations:
+        if observation["value"] is not None:
+            observation["value"] *= 1_000
+    delete_and_write_csv(observations, Path("sources/ssb/mean_wages_no_yearly.csv"))
 
-    delete_and_write_csv(observations, Path("sources/ssb/nominal_wages.csv"))
+
+def get_mean_wages_no_monthly_annualized() -> None:
+    # Nominal average monthly wages in Norway from SSB from 2015 to present
+    response = _post(
+        "https://data.ssb.no/api/v0/no/table/11419/",
+        [
+            {
+                "code": "MaaleMetode",
+                "selection": {
+                    "filter": "item",
+                    "values": ["02"],
+                },
+            },
+            {
+                "code": "NACE2007",
+                "selection": {"filter": "vs:NACELonnalle02", "values": []},
+            },
+            {
+                "code": "ContentsCode",
+                "selection": {"filter": "item", "values": ["Manedslonn"]},
+            },
+        ],
+    )
+    observations = simplify_jsonstat2(response)
+    for observation in observations:
+        observation["value"] *= 12
+    delete_and_write_csv(
+        observations, Path("sources/ssb/mean_wages_no_monthly_annualized.csv")
+    )
 
 
 def get_real_wages() -> None:
@@ -169,8 +204,62 @@ def get_government_expenses_from_ssb() -> None:
     delete_and_write_csv(observations, Path("sources/ssb/government_expenses.csv"))
 
 
-# Get US CPI data from the Federal Reserve Bank of St. Louis from 1970 to today.
-# only use the modules we have already imported
+def get_us_mean_wages() -> None:
+    """
+    Fetch US mean hourly earnings for all employees from BLS API (2006–2024), convert to yearly averages,
+    and save as CSV. Uses CEU0500000003 (nominal average hourly earnings, monthly, all private employees).
+    Splits requests to handle BLS 10-year limit without a key.
+    """
+    url = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+    date_ranges = [("2006", "2015"), ("2016", "2024")]  # Split into two chunks
+    all_data = []
+
+    for start_year, end_year in date_ranges:
+        payload = {
+            "seriesid": ["CEU0500000003"],
+            "startyear": start_year,
+            "endyear": end_year,
+            "registrationkey": None,  # No key; split avoids limit
+        }
+        response = post(url, json=payload)
+        data = response.json()
+
+        if "Results" not in data or not data["Results"]["series"]:
+            raise ValueError(
+                f"No data returned from BLS API for CEU0500000003 ({start_year}–{end_year})."
+            )
+
+        all_data.extend(data["Results"]["series"][0]["data"])
+
+    # Parse into Polars DataFrame
+    df = pl.DataFrame(
+        [
+            {
+                "date": f"{obs['year']}-{obs['period'][1:]}-01",
+                "hourly_value": float(obs["value"]),
+            }
+            for obs in all_data
+        ]
+    )
+
+    # Convert to yearly wages and aggregate
+    df = df.with_columns(
+        [
+            pl.col("date").str.strptime(pl.Date, "%Y-%m-%d").alias("date_obj"),
+            (pl.col("hourly_value") * 2080).alias("yearly_value"),  # 40 hrs/wk * 52 wks
+        ]
+    ).with_columns([pl.col("date_obj").dt.year().alias("year")])
+
+    yearly_df = df.group_by("year").agg([pl.col("yearly_value").mean().alias("value")])
+
+    # Format observations
+    observations = [
+        {"date": f"{row['year']}-12-31", "value": row["value"]}
+        for row in yearly_df.sort("year").to_dicts()
+    ]
+
+    # Save to CSV
+    delete_and_write_csv(observations, Path("sources/us_bls/us_mean_wages.csv"))
 
 
 def get_us_cpi() -> None:
