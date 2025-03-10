@@ -73,7 +73,9 @@ order by dato
 
 
 
-Her ser vi hvordan denne utviklingen har vært historisk.
+Her ser vi hvordan denne utviklingen har vært historisk. En norsk brutto norsk gjennomsnittslønn brukt til å kjøpe varer og tjenester i USA hadde en voldsom økning frem til 1978. Deretter en dip og så stagnering frem til 2002, fulgt av en kraftig vekst frem til 2011.
+
+Vi kan sammenligne dette med utvikling i [reallønn](../reallønn) Der reallønnen viser hva en gjennomsnittlig lønn kan kjøpe i Norge, kan denne grafen være en indikasjon på hvordan andre land verdsetter norsk arbeid.
 
 <LineChart
 title=""
