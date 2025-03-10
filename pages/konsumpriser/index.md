@@ -17,5 +17,4 @@ from cpi
     subtitle="Kilde: SSBs tabell 03013"
     x=date
     y=tolvmånedersendring
-    chartAreaHeight={500}
 />

@@ -16,5 +16,4 @@ select date as dato, value as offentlige_utgifter from government_expenses
     subtitle="Kilde: SSBs tabell 10725"
     x=dato
     y=offentlige_utgifter
-    chartAreaHeight={500}
 />
