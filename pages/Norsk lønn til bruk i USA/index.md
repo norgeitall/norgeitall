@@ -40,7 +40,7 @@ order by dato
 
 
 <LineChart
-  title="Wages in usd adjusted for inflation (2024usd)"
+  title="Gjennomsnittslønn i USD og justert for inflasjon til 2024-dollar"
   data={joined_us_nok_wages}
   x="dato"
   y1="norwegian_wages_usd_adjusted1"
@@ -48,8 +48,6 @@ order by dato
   y3="us_wages_adjusted"
   chartAreaHeight={500}
 />
-
-*(Vi sammenligner her bruttolønn, det vil si at vi ikke tar høyde for skatt, som i realiteten gjør at en person med gjennomsnittlig norsk lønn ville sitte igjen med betydelig mindre enn en gjennomsnittlig skatteyter i USA. For å gjøre tallene sammenlignbare oppgir vi tallene i inflasjonsjusterte 2024-dollar.)*
 
 
 
@@ -73,14 +71,20 @@ order by dato
 
 
 
-Her ser vi hvordan denne utviklingen har vært historisk. En norsk brutto norsk gjennomsnittslønn brukt til å kjøpe varer og tjenester i USA hadde en voldsom økning frem til 1978. Deretter en dip og så stagnering frem til 2002, fulgt av en kraftig vekst frem til 2011.
 
-Vi kan sammenligne dette med utvikling i [reallønn](../reallønn) Der reallønnen viser hva en gjennomsnittlig lønn kan kjøpe i Norge, kan denne grafen være en indikasjon på hvordan andre land verdsetter norsk arbeid.
 
 <LineChart
-title=""
+title="Norsk gjennomsnittslønn vekslet til dollar og inflasjonsjustert til 2024-dollar"
   data={wages_mean_usd_cpi_adjusted}
   x=dato
   y=lønn_usd_adjusted
   chartAreaHeight={500}
 />
+
+Her ser vi hvordan denne utviklingen har vært historisk. En norsk brutto norsk gjennomsnittslønn brukt til å kjøpe varer og tjenester i USA hadde en voldsom økning frem til 1978. Deretter en dip og så stagnering frem til 2002, fulgt av en kraftig vekst frem til 2011.
+
+Vi kan sammenligne dette med utvikling i [reallønn](../reallønn) Der reallønnen viser hva en gjennomsnittlig lønn kan kjøpe i Norge, kan denne grafen være en indikasjon på hvordan andre land verdsetter norsk arbeid.
+
+
+
+*(Vi sammenligner bruttolønn, det vil si at vi ikke tar høyde for skatt, som i realiteten gjør at en person med gjennomsnittlig norsk lønn ville sitte igjen med betydelig mindre enn en gjennomsnittlig lønnsmottaker i USA. For å gjøre tallene sammenlignbare oppgir vi tallene i inflasjonsjusterte 2024-dollar.)*
