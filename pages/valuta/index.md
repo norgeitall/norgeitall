@@ -42,5 +42,4 @@ from nok_eur
     title="Pris for én Euro"
     x=dato
     y=pris
-    chartAreaHeight={500}
 />

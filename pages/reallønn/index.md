@@ -17,7 +17,6 @@ from real_wages
     title="Reallønn i 2010-kroner"
     x=dato
     y=lønn
-    chartAreaHeight={500}
 />
 
 Reallønnen sank også i 2022 og 2023, før den i 2024 hentet seg opp til 2021-nivået.
@@ -43,5 +42,4 @@ For å vurdere denne påstanden kan vi se reallønnsutviklingen i sammenheng med
     x=real_wages_date
     y=lønn
     y2=fondsverdi
-    chartAreaHeight={500}
 />
