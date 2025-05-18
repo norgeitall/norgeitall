@@ -9,7 +9,14 @@ select
     cast(date as date) as date,
     value as 'tolvmånedersendring'
 from cpi
+order by date desc
 ```
+
+<BigValue
+  data={cpi}
+  value=tolvmånedersendring
+  title="Siste tolvmånedersendring i prosent"
+/>
 
 <LineChart
     data={cpi}
