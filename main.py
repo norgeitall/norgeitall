@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from calendar import monthrange
+from copy import deepcopy
 from csv import DictWriter
 from datetime import date
 from pathlib import Path
@@ -103,8 +104,13 @@ def get_real_wages() -> None:
         ],
     )
     observations = simplify_jsonstat2(response)
+    observations_to_include = []
     for observation in observations:
-        observation["value"] *= 1_000
+        if observation["value"] is None:
+            continue
+        observation_to_include = deepcopy(observation)
+        observation_to_include["value"] *= 1_000
+        observations_to_include.append(observation_to_include)
     delete_and_write_csv(observations, Path("sources/ssb/real_wages.csv"))
 
 
