@@ -3,10 +3,10 @@ name = "norgeitall"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = "==3.14.3"
 dependencies = [
     "httpx>=0.28.1",
-    "polars>=1.24.0",
-    "pre-commit>=4.1.0",
-    "ruff>=0.9.9",
+    "polars>=1.39.3",
+    "pre-commit>=4.5.1",
+    "ruff>=0.15.7",
 ]
