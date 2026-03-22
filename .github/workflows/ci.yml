@@ -10,13 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
-      - name: Test
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "npm"
+      - uses: oven-sh/setup-bun@v2
       - run: uv run pre-commit run --all-files
       - run: uv run main.py
-      - run: npm install
-      - run: npm run sources
-      - run: npm run build:strict
+      - run: bun install
+      - run: bun run sources
+      - run: bun run build:strict
