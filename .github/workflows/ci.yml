@@ -13,6 +13,6 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: uv run pre-commit run --all-files
       - run: uv run main.py
-      - run: bun install
+      - run: bun install --frozen-lockfile
       - run: bun run sources
       - run: bun run build:strict

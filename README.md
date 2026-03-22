@@ -15,9 +15,7 @@ Then, Evidence makes these CSV files available to query with SQL, and builds the
 ### Prerequisites
 
 1. Python package and project manager [uv](https://docs.astral.sh/uv/)
-2. JavaScript runtime environment [Node.js](https://nodejs.org/en)
-
-If you use [Homebrew](https://brew.sh/), simply run `brew install uv node`.
+2. JavaScript runtime environment [Bun](https://bun.com/)
 
 ### Setup
 
@@ -25,13 +23,13 @@ If you use [Homebrew](https://brew.sh/), simply run `brew install uv node`.
 git clone git@github.com:norgeitall/norgeitall.git  # Clone the repository
 cd norgeitall  # Navigate into the project folder
 uv sync  # Install Python dependencies
-npm install  # Install Node.js dependencies
+bun install --frozen-lockfile  # Install Node.js dependencies
 source .venv/bin/activate  # Activate Python virtual environment
 pre-commit install  # Install pre-commit hooks
 pre-commit run --all-files  # Run automatic quality checks
 ./main.py  # Fetch data and store in CSV files
-npm run sources  # Extract data from sources
-npm run dev  # Start development server
+bun run sources  # Extract data from sources
+bun run dev  # Start development server
 ```
 
 [http://localhost:3000/](http://localhost:3000/) should now be opened in your default browser.
