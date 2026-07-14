@@ -21,7 +21,7 @@ order by date desc
 <LineChart
     data={cpi}
     title="Konsumprisindeksen, 12-månedersendring"
-    subtitle="Kilde: SSBs tabell 03013"
+    subtitle="Kilde: SSBs tabeller 03013 (til og med 2025) og 14700 (fra og med 2026)"
     x=date
     y=tolvmånedersendring
 />
