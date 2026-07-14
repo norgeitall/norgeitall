@@ -67,7 +67,7 @@ def get_nok_eur() -> None:
 
 
 def get_cpi() -> None:
-    response = _post(
+    response_from_old_table = _post(
         "https://data.ssb.no/api/v0/no/table/03013/",
         [
             {
@@ -86,7 +86,18 @@ def get_cpi() -> None:
             },
         ],
     )
-    observations = simplify_jsonstat2(response)
+    observations_before_2026 = simplify_jsonstat2(response_from_old_table)
+    response_from_new_table = _get(
+        "https://data.ssb.no/api/pxwebapi/v2/tables/14700/data?lang=no&outputFormat=json-stat2&valuecodes[Tid]=*&valuecodes[VareTjenesteGrp]=00&codelist[VareTjenesteGrp]=vs_CoiCop2018Kpi01&valuecodes[ContentsCode]=Tolvmanedersendring&heading=Tid,ContentsCode&stub=VareTjenesteGrp"
+    )
+    observations_from_new_table = simplify_jsonstat2(response_from_new_table)
+    observations_2026_onwards = list(
+        filter(
+            lambda observation: observation["date"].year >= 2026,
+            observations_from_new_table,
+        )
+    )
+    observations = observations_before_2026 + observations_2026_onwards
     delete_and_write_csv(observations, Path("sources/ssb/cpi.csv"))
 
 
