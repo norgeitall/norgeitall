@@ -19,6 +19,10 @@ from real_wages
     y=lønn
 />
 
+<Alert status="warning">
+    SSB sluttet å oppdatere reallønn i tabell 09786. De siste tallene er fra 2024. Jeg spurte dem om dette i april 2026, og fikk til svar at de er i ferd med å utarbeide en ny tabell som vil dekke noe av det samme.
+</Alert>
+
 Reallønnen sank også i 2022 og 2023, før den i 2024 hentet seg opp til 2021-nivået.
 
 ```sql joined
