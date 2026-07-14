@@ -14,6 +14,7 @@ order by date desc
 
 <BigValue
   data={cpi}
+  fmt=num1
   value=tolvmånedersendring
   title="Siste tolvmånedersendring i prosent"
 />
@@ -24,4 +25,5 @@ order by date desc
     subtitle="Kilde: SSBs tabeller 03013 (til og med 2025) og 14700 (fra og med 2026)"
     x=date
     y=tolvmånedersendring
+    yFmt=num1
 />
